@@ -4,7 +4,7 @@ QT += qml quick widgets
 
 SOURCES += main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += underseawolf.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -12,7 +12,7 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 
-DISTFILES += \
+OTHER_FILES += \
     qml/IntervalGaugeStyle.qml \
-    qml/UnderSeaWolf.qml
+    qml/UnderSeaWolfControls.qml
 

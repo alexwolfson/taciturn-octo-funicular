@@ -3,12 +3,12 @@ import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Extras 1.4
-
+import "./qml"
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Hello World")
+    width: 480
+    height: 600
+    title: qsTr("Under Sea Wolf")
     id: root
     menuBar: MenuBar {
         Menu {
@@ -30,68 +30,29 @@ ApplicationWindow {
         height: Math.min(root.width, root.height)
         anchors.centerIn: parent
 
-        Row {
-            id: gaugeRow
-            spacing: container.width * 0.02
+        UnderSeaWolfControls {
+            id:timerHold
+            maximumValue: 10
+            minAngle:     -60
+            maxAngle:     60
             anchors.centerIn: parent
-            CircularGauge {
-                id: timer
-                property real valueChange: 0
-                value: 5
-                anchors.verticalCenter: parent.verticalCenter
-                maximumValue: 120
-                // We set the width to the height, because the height will always be
-                // the more limited factor. Also, all circular controls letterbox
-                // their contents to ensure that they remain circular. However, we
-                // don't want to extra space on the left and right of our gauges,
-                // because they're laid out horizontally, and that would create
-                // large horizontal gaps between gauges on wide screens.
-                width: height
-                height: container.height * 0.5
-                states:[
-                    State {
-                        name: "watchRun"
-                        //when: value != 0
-                        PropertyChanges {
-                            target: timer
-                            value: 120
-                        }
-                    },
-                    State {
-                        name: "initial"; //when: value == 0
-                        PropertyChanges {
-                            target: timer
-                            value: 0
-                        }
-                    }
-
-                ]
-                transitions:[
-                    Transition {
-                        from: "*"
-                        to: "watchRun"
-                        NumberAnimation{
-                            target: timer
-                            property: "value"
-                            duration: (120 - timer.value) * 1000
-                        }
-                    },
-                    Transition {
-                        from: "*"
-                        to: "initial"
-                         NumberAnimation{
-                            target: timer
-                            property: "value"
-                            duration: timer.value * 10
-                        }
-                    }
-
-                ]
-
-                //Behavior on value { NumberAnimation { duration: timer.valueChange * 1000 } }
-                //style: IntervalGaugeStyle {}
-            }
-
+            needleColor: "blue"
+        }
+        UnderSeaWolfControls {
+            id:timerWalk
+            maximumValue: 12
+            minAngle:     60
+            maxAngle:     180
+            anchors.centerIn: parent
+            needleColor: "red"
+        }
+        UnderSeaWolfControls {
+            id:timerBreath
+            maximumValue: 6
+            minAngle:     180
+            maxAngle:     300
+            needleColor:  "green"
+            anchors.centerIn: parent
         }
     }
     MainForm {
@@ -104,9 +65,9 @@ ApplicationWindow {
 //            timer.value = newValue
 //        }
         anchors.fill: parent
-        button1.onClicked: {timer.state = "watchRun"}
-        button2.onClicked: {timer.state = "initial"}
-    }
+        button1.onClicked: {timerHold.state = "watchRun"}
+        button2.onClicked: {timerHold.state = "initial"}
+//    }
 
     MessageDialog {
         id: messageDialog
@@ -119,3 +80,4 @@ ApplicationWindow {
     }
 }
 
+}
