@@ -35,9 +35,9 @@ ApplicationWindow {
             spacing: container.width * 0.02
             anchors.centerIn: parent
             CircularGauge {
-                id: speedometer
-                property int valueChange: 0
-                value: 0
+                id: timer
+                property real valueChange: 0
+                value: 5
                 anchors.verticalCenter: parent.verticalCenter
                 maximumValue: 120
                 // We set the width to the height, because the height will always be
@@ -48,8 +48,47 @@ ApplicationWindow {
                 // large horizontal gaps between gauges on wide screens.
                 width: height
                 height: container.height * 0.5
-                Behavior on value { NumberAnimation { duration: speedometer.valueChange * 1000 } }
+                states:[
+                    State {
+                        name: "watchRun"
+                        //when: value != 0
+                        PropertyChanges {
+                            target: timer
+                            value: 120
+                        }
+                    },
+                    State {
+                        name: "initial"; //when: value == 0
+                        PropertyChanges {
+                            target: timer
+                            value: 0
+                        }
+                    }
 
+                ]
+                transitions:[
+                    Transition {
+                        from: "*"
+                        to: "watchRun"
+                        NumberAnimation{
+                            target: timer
+                            property: "value"
+                            duration: (120 - timer.value) * 1000
+                        }
+                    },
+                    Transition {
+                        from: "*"
+                        to: "initial"
+                         NumberAnimation{
+                            target: timer
+                            property: "value"
+                            duration: timer.value * 10
+                        }
+                    }
+
+                ]
+
+                //Behavior on value { NumberAnimation { duration: timer.valueChange * 1000 } }
                 //style: IntervalGaugeStyle {}
             }
 
@@ -60,13 +99,13 @@ ApplicationWindow {
         anchors.bottomMargin: 125
         anchors.leftMargin: 0
         anchors.topMargin: -154
-        function changeValue(newValue) {
-            speedometer.valueChange = Math.abs(newValue - speedometer.value)
-            speedometer.value = newValue
-        }
+//        function changeValue(newValue) {
+//            timer.valueChange = Math.abs(newValue - timer.value)
+//            timer.value = newValue
+//        }
         anchors.fill: parent
-        button1.onClicked: changeValue(120)
-        button2.onClicked: changeValue(0)
+        button1.onClicked: {timer.state = "watchRun"}
+        button2.onClicked: {timer.state = "initial"}
     }
 
     MessageDialog {
