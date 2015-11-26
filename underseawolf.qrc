@@ -4,5 +4,7 @@
         <file>MainForm.ui.qml</file>
         <file>main.cpp</file>
         <file>qml/UnderSeaWolfControls.qml</file>
+        <file>qml/images/SeaTurtle.png</file>
+        <file>qml/ApneaList.qml</file>
     </qresource>
 </RCC>

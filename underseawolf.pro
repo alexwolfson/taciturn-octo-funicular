@@ -16,3 +16,8 @@ OTHER_FILES += \
     qml/IntervalGaugeStyle.qml \
     qml/UnderSeaWolfControls.qml
 
+DISTFILES += \
+    qml/images/SeaTurtle.jpg \
+    qml/images/SeaTurtle.png \
+    qml/ApneaList.qml
+

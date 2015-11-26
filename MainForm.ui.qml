@@ -16,6 +16,7 @@ Item {
         Button {
             id: button1
             text: qsTr("Hold")
+            clip: true
             anchors.top: parent.top
             anchors.topMargin: 0
         }

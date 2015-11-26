@@ -10,14 +10,12 @@ CircularGauge {
     value: 0
     anchors.verticalCenter: parent.verticalCenter
     maximumValue: 240
+    //width: parent.width
+    property var gaugeModelElement
+    property bool isCurrent: false
     property real minAngle: -45
     property real maxAngle:  45
     property color needleColor: "red"
-    clip: true
-//    property Text imageFile:{
-//        id: image
-//        text: qsTr("")
-//    }
 
     style: CircularGaugeStyle {
         id: gaugeStyle
@@ -32,46 +30,52 @@ CircularGauge {
             antialiasing: true
             color: timer.needleColor
         }
-//        foreground: Item {
-//            Rectangle {
-//                width: outerRadius * 0.2
-//                height: width
-//                radius: width / 2
-//                color: "#e5e5e5"
-//                anchors.centerIn: parent
-//            }
-//        }
-
-//        Image {
-//            id: name
-//            source: timer.imageFile.text
-//        }
     }
-    // We set the width to the height, because the height will always be
-    // the more limited factor. Also, all circular controls letterbox
-    // their contents to ensure that they remain circular. However, we
-    // don't want to extra space on the left and right of our gauges,
-    // because they're laid out horizontally, and that would create
-    // large horizontal gaps between gauges on wide screens.
-    //width: height
-    //height: container.height * 0.5
+    Rectangle {
+        id: textWrapper
+
+        width: 60
+        height: 20
+        radius: 4
+        x: (timer.x + timer.width) /2
+        anchors.centerIn: timer.Center
+        //color: apneaModel.get(index).myColor
+//                    gradient: Gradient {
+//                        GradientStop { position: 0.0; color: "#f8306a" }
+//                        GradientStop { position: 1.0; color: "#fb5b40" }
+//                    }
+
+        Text {
+            text: timer.gaugeModelElement.typeName
+            color: timer.needleColor
+            font.pixelSize: textWrapper.height - 4
+    //        horizontalAlignment: Text.AlignHCenter
+    //        verticalAlignment:   Text.AlignVCenter
+            //anchors.centerIn: timer.Center
+
+            //x: timer.x + timer.width/2
+            //y: timer.horizontalCenter
+            //rotation: 60 //(parent.minAngle + parent.maxAngle) / 2
+        }
+
+    }
     states:[
         State {
             name: "watchRun"
-            //when: value != 0
+            when: isCurrent
             PropertyChanges {
                 target: timer
-                value: 120
+                value: maximumValue
             }
         },
         State {
-            name: "initial"; //when: value == 0
+            name: "initial"
+            when: !isCurrent
             PropertyChanges {
                 target: timer
                 value: 0
             }
         }
-
     ]
     transitions:[
         Transition {
@@ -81,7 +85,7 @@ CircularGauge {
             NumberAnimation{
                 target: timer
                 property: "value"
-                duration: (120 - timer.value) * 1000
+                duration: (maximumValue - timer.value) * 1000
             }
         },
         Transition {
@@ -93,9 +97,7 @@ CircularGauge {
                 duration: timer.value * 10
             }
         }
-
     ]
-
     //Behavior on value { NumberAnimation { duration: timer.valueChange * 1000 } }
     //style: IntervalGaugeStyle {}
 }
