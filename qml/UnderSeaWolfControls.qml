@@ -6,16 +6,18 @@ import QtQuick.Extras 1.4
 CircularGauge {
     id: timer
     property real valueChange: 0
+    //property int modelIndex:0
     // property alias needleColor: gaugeStyle.needle
     value: 0
     anchors.verticalCenter: parent.verticalCenter
-    maximumValue: 240
-    //width: parent.width
     property var gaugeModelElement
-    property bool isCurrent: false
+    property var gaugeModelNextElement
+    property bool isCurrent: gaugeModelElement.isCurrent
     property real minAngle: -45
     property real maxAngle:  45
-    property color needleColor: "red"
+    property color needleColor: gaugeModelElement.myColor
+    property int currentModelElement: 0
+    maximumValue: gaugeModelElement.time
 
     style: CircularGaugeStyle {
         id: gaugeStyle
@@ -31,6 +33,7 @@ CircularGauge {
             color: timer.needleColor
         }
     }
+    // gauge type displayed in gauge sector
     Rectangle {
         id: textWrapper
 
@@ -61,7 +64,7 @@ CircularGauge {
     }
     states:[
         State {
-            name: "watchRun"
+            name: "stateRun"
             when: isCurrent
             PropertyChanges {
                 target: timer
@@ -74,18 +77,26 @@ CircularGauge {
             PropertyChanges {
                 target: timer
                 value: 0
+                //modelIndex: modelIndex + 1
             }
         }
     ]
     transitions:[
         Transition {
             from: "*"
-            to: "watchRun"
+            to: "stateRun"
             // SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
             NumberAnimation{
                 target: timer
                 property: "value"
                 duration: (maximumValue - timer.value) * 1000
+            }
+            onRunningChanged: {
+                // the step is over - go to the next step
+                if (!running) { state = "initial";
+                   gaugeModelElement.isCurrent = false
+                   //gaugeModelNextElement.isCurrent = true
+                }
             }
         },
         Transition {
