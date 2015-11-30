@@ -3,8 +3,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 
 Item {
-    width: 640
-    height: 480
+    width: 600
+    height: 800
 
     property alias button1: button1
     property alias button2: button2
@@ -15,7 +15,8 @@ Item {
 
         Button {
             id: button1
-            text: qsTr("Hold")
+            text: qsTr("Start")
+            enabled: true
             clip: true
             anchors.top: parent.top
             anchors.topMargin: 0

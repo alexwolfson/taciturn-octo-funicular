@@ -19,5 +19,5 @@ OTHER_FILES += \
 DISTFILES += \
     qml/images/SeaTurtle.jpg \
     qml/images/SeaTurtle.png \
-    qml/ApneaList.qml
+    qml/Gauges.qml
 

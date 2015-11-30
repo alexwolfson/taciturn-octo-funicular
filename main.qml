@@ -13,7 +13,7 @@ ApplicationWindow {
     color: "black"
     Image {
         id: bkgImg
-        source: "qml/images/SeaTurtle.png"
+        source: "qml/images/surface.png"
         fillMode: Image.PreserveAspectFit
         opacity: 0.4
     }
@@ -42,11 +42,11 @@ ApplicationWindow {
             property int breathe: 0
             property int hold: 1
             property int walk: 2
-            ListElement { time: 10; typeName: "breathe"; myColor: "red";   isCurrent: true }
-            ListElement { time: 8; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 10; typeName: "breathe"; myColor: "red";   isCurrent: false }
+            ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
             ListElement { time: 14; typeName: "breathe"; myColor: "red";   isCurrent: false }
-            ListElement { time: 8; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
         }
         GridView {
@@ -69,6 +69,7 @@ ApplicationWindow {
                     width: view.cellWidth -2
                     height: view.cellHeight -2
                     color: apneaModel.get(index).myColor
+                    border.color: apneaModel.get(index).isCurrent? "white": "black"
     //                    gradient: Gradient {
     //                        GradientStop { position: 0.0; color: "#f8306a" }
     //                        GradientStop { position: 1.0; color: "#fb5b40" }
@@ -84,30 +85,40 @@ ApplicationWindow {
                   }
            }
     }
+
 //        ApneaList{
 //        }
+
         UnderSeaWolfControls {
             id:timerBreathe
-            minAngle:     180
-            maxAngle:     300
+            gaugeName: "breathe"
+            minAngle:     185
+            maxAngle:     295
             anchors.centerIn: parent
+            gaugeModel: apneaModel
             gaugeModelElement: apneaModel.get(apneaModel.breathe)
+            nextGauge:timerHold
         }
         UnderSeaWolfControls {
             id:timerHold
-            maximumValue: 30
-            minAngle:     -60
-            maxAngle:     60
+            gaugeName:  "hold"
+            minAngle:     -55
+            maxAngle:     55
             anchors.centerIn: parent
+            gaugeModel: apneaModel
             gaugeModelElement: apneaModel.get(apneaModel.hold)
+            nextGauge: timerWalk
         }
         UnderSeaWolfControls {
             id:timerWalk
-            maximumValue: 20
-            minAngle:     60
-            maxAngle:     180
+            gaugeName: "walk"
+            //maximumValue: 20
+            minAngle:     65
+            maxAngle:     175
             anchors.centerIn: parent
+            gaugeModel: apneaModel
             gaugeModelElement: apneaModel.get(apneaModel.walk)
+            nextGauge: timerBreathe
         }
     }
     MainForm {
@@ -116,7 +127,11 @@ ApplicationWindow {
         anchors.leftMargin: 0
         anchors.topMargin: -180
         anchors.fill: parent
-        button1.onClicked: {timerHold.state = "watchRun"}
-        button2.onClicked: {timerHold.state = "initial"}
+        button1.onClicked: {
+            timerBreathe.modelIndex = 0
+            timerBreathe.state = "stateRun";
+            timerBreathe.isCurrent = true
+        }
+        button2.onClicked: {timerBreathe.state = "initial"}
     }
 }
