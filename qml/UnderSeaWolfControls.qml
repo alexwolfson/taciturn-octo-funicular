@@ -11,10 +11,10 @@ CircularGauge {
     value: 0
     anchors.verticalCenter: parent.verticalCenter
     property string gaugeName: "unknownName"
-    property var gaugeModelElement
     property ListModel gaugeModel
     property CircularGauge nextGauge
-    //property var isCurrent: gaugeModelElement.isCurrent
+
+    property var gaugeModelElement: gaugeModel.get(modelIndex)
     property bool isCurrent: false
     property real minAngle: -45
     property real maxAngle:  45
@@ -22,7 +22,7 @@ CircularGauge {
     property int currentModelElement: 0
     maximumValue: gaugeModelElement.time
     property int modelIndex: 0
-    onIsCurrentChanged: { gaugeModelElement.isCurrent = isCurrent}
+    //onIsCurrentChanged: { gaugeModelElement.isCurrent = isCurrent}
     style: CircularGaugeStyle {
         id: gaugeStyle
         minimumValueAngle: gauge.minAngle
@@ -99,13 +99,12 @@ CircularGauge {
             onRunningChanged: {
                 // the step is over - go to the next step
                 if ((!running) && (gaugeModelElement.typeName == gaugeName)) {
-                    console.log("running=", running)
+                    console.log("running=", running, "modelIndex=", modelIndex)
                     state = "initial";
                     gaugeModel.get(modelIndex).isCurrent = false
-                    modelIndex += 1
-                    gaugeModel.get(modelIndex).isCurrent = true
-                    if (modelIndex < 6 /*gaugeModel.count*/){
-                        modelIndex++
+                    if (nextGauge.modelIndex < gaugeModel.count){
+                        nextGauge.modelIndex = modelIndex + 1
+                        gaugeModel.get(nextGauge.modelIndex).isCurrent = true
                         //seting up next gauge as current
                         nextGauge.state = "stateRun"
                     }

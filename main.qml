@@ -44,7 +44,7 @@ ApplicationWindow {
             property int walk: 2
             ListElement { time: 10; typeName: "breathe"; myColor: "red";   isCurrent: false }
             ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 18; typeName: "walk";    myColor: "green"; isCurrent: false }
             ListElement { time: 14; typeName: "breathe"; myColor: "red";   isCurrent: false }
             ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
@@ -92,32 +92,31 @@ ApplicationWindow {
         UnderSeaWolfControls {
             id:timerBreathe
             gaugeName: "breathe"
+            modelIndex: apneaModel.breathe
             minAngle:     185
             maxAngle:     295
             anchors.centerIn: parent
             gaugeModel: apneaModel
-            gaugeModelElement: apneaModel.get(apneaModel.breathe)
             nextGauge:timerHold
         }
         UnderSeaWolfControls {
             id:timerHold
             gaugeName:  "hold"
+            modelIndex: apneaModel.hold
             minAngle:     -55
             maxAngle:     55
             anchors.centerIn: parent
             gaugeModel: apneaModel
-            gaugeModelElement: apneaModel.get(apneaModel.hold)
             nextGauge: timerWalk
         }
         UnderSeaWolfControls {
             id:timerWalk
             gaugeName: "walk"
-            //maximumValue: 20
+            modelIndex: apneaModel.walk
             minAngle:     65
             maxAngle:     175
             anchors.centerIn: parent
             gaugeModel: apneaModel
-            gaugeModelElement: apneaModel.get(apneaModel.walk)
             nextGauge: timerBreathe
         }
     }
