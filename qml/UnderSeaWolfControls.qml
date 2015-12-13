@@ -3,6 +3,8 @@ import QtQuick.Window 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Extras 1.4
+import QtMultimedia 5.0
+
 CircularGauge {
     id: gauge
     property real valueChange: 0
@@ -27,6 +29,9 @@ CircularGauge {
         id: gaugeStyle
         minimumValueAngle: gauge.minAngle
         maximumValueAngle: gauge.maxAngle
+        function toPixels(percentage) {
+            return percentage * outerRadius;
+        }
         needle: Rectangle {
             id: gaugeNeedle
             property color needleColor: color
@@ -35,6 +40,20 @@ CircularGauge {
             implicitHeight: outerRadius * 0.9
             antialiasing: true
             color: gauge.needleColor
+        }
+        tickmark: Rectangle {
+            implicitWidth: toPixels(0.06)
+            antialiasing: true
+            implicitHeight: toPixels(0.06)
+            color: gauge.needleColor
+            border.color: "black"
+        }
+        minorTickmark: Rectangle{
+            implicitWidth: toPixels(0.03)
+            antialiasing: true
+            implicitHeight: toPixels(0.08)
+            color: gauge.needleColor
+            border.color: "black"
         }
     }
     // gauge type displayed in gauge sector
@@ -66,6 +85,11 @@ CircularGauge {
         }
 
     }
+    SoundEffect {
+            id: breathsnd
+            volume: 1.0
+            source: "qrc:/qml/sounds/breathe.wav"
+        }
     states:[
         State {
             name: "stateRun"
@@ -98,6 +122,12 @@ CircularGauge {
             }
             onRunningChanged: {
                 // the step is over - go to the next step
+                if (running){
+                    if (gauge.gaugeName == "brth"){
+                       breathsnd.play
+                    }
+                }
+
                 if ((!running) && (gaugeModelElement.typeName == gaugeName)) {
                     console.log("running=", running, "modelIndex=", modelIndex)
                     state = "initial";

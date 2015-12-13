@@ -19,5 +19,6 @@ OTHER_FILES += \
 DISTFILES += \
     qml/images/SeaTurtle.jpg \
     qml/images/SeaTurtle.png \
-    qml/Gauges.qml
+    qml/Gauges.qml \
+    qml/sounds/breathe.wav
 
