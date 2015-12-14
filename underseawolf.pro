@@ -20,5 +20,11 @@ DISTFILES += \
     qml/images/SeaTurtle.jpg \
     qml/images/SeaTurtle.png \
     qml/Gauges.qml \
-    qml/sounds/breathe.wav
+    qml/sounds/breathe.wav \
+    qml/sounds/hold.wav \
+    qml/sounds/walk.wav \
+    TODO \
+    README \
+    qml/sounds/10sec.wav \
+    qml/sounds/30sec.wav
 

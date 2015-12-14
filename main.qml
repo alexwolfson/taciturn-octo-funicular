@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Extras 1.4
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.2
+import QtMultimedia 5.5
 import "./qml"
 ApplicationWindow {
     visible: true
@@ -44,6 +45,22 @@ ApplicationWindow {
             }
         }
     }
+//    Text {
+//        z:150
+//        text: "Click Me!";
+//        font.pointSize: 24;
+//        width: 150; height: 50;
+
+//        Audio {
+//            id: playMusic
+//            source: "qrc:/qml/sounds/breathe.wav"
+//        }
+//        MouseArea {
+//            id: playArea
+//            anchors.fill: parent
+//            onPressed:  { playMusic.play()}
+//        }
+//    }
     Item {
         id: container
         width: root.width
@@ -62,30 +79,37 @@ ApplicationWindow {
             property int breathe: 0
             property int hold: 1
             property int walk: 2
+            ListElement { time: 35; typeName: "brth";    myColor: "red";   isCurrent: false }
+            ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 32; typeName: "walk";    myColor: "green"; isCurrent: false }
+
+            ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
+            ListElement { time: 11; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 10; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 18; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 18; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 105; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 10; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 18; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 11; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 10; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
             ListElement { time: 18; typeName: "walk";    myColor: "green"; isCurrent: false }
+
             ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
-            ListElement { time: 10; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 18; typeName: "walk";    myColor: "green"; isCurrent: false }
-            ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 8;  typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 5;  typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 11; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
         }
 
             //        ApneaList{
@@ -126,23 +150,29 @@ ApplicationWindow {
             id: viewHeader
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 5
-            width: parent.width
+            width: parent.width - 2
             height:40
 
             Rectangle { width: (viewHeader.width - 4 * radius )/3 - 30; height:  parent.height; radius: parent.spacing
                         color: "red"
+                        border.color: "black"
+                        border.width: 2
                         Text { anchors.centerIn: parent
-                                   font.pointSize: 20; text: "<b>Breathe</b><i>(Sec)<i>"; style: Text.Raised; styleColor: "white" }
+                                   font.pointSize: 20; text: qsTr("<b>Breathe</b><i>(Sec)<i>"); color: "white"; style: Text.Raised; styleColor: "black"  }
             }
             Rectangle { width: (viewHeader.width - 4 * radius )/3 -30; height:  parent.height; radius: parent.spacing
                         color: "blue"
+                        border.color: "black"
+                        border.width: 2
                         Text { anchors.centerIn: parent
-                                   font.pointSize: 20; text: "<b>Hold</b><i>(Sec)<i>"; style: Text.Raised; styleColor: "white" }
+                                   font.pointSize: 20; text: qsTr("<b>Hold</b><i>(Sec)<i>"); color: "white"; style: Text.Raised; styleColor: "black"  }
             }
             Rectangle { width: (viewHeader.width - 4 * radius )/3 - 30; height:  parent.height; radius: parent.spacing
                         color: "green"
+                        border.color: "black"
+                        border.width: 2
                         Text { anchors.centerIn: parent
-                                   font.pointSize: 20; text: "<b>Walk</b><i>(Sec)<i>";style: Text.Raised; styleColor: "white" }
+                                   font.pointSize: 20; text: qsTr("<b>Walk</b><i>(Sec)<i>"); color: "white"; style: Text.Raised; styleColor: "black"  }
             }
         }
         GridView {
@@ -162,11 +192,12 @@ ApplicationWindow {
                 id: apneaDelegate
 
                 Rectangle {
+                    property real myRadius: 5
                     id: wrapper
                     z: apneaModel.get(index).isCurrent? 100:10
-                    width: apneaModel.get(index).isCurrent? 2* view.cellWidth : view.cellWidth -5
-                    height: apneaModel.get(index).isCurrent? 2* view.cellHeight + 5: view.cellHeight -5
-                    radius:5
+                    width: apneaModel.get(index).isCurrent? 2* view.cellWidth : view.cellWidth -myRadius
+                    height: apneaModel.get(index).isCurrent? 2* view.cellHeight + myRadius: view.cellHeight -myRadius
+                    radius:apneaModel.get(index).isCurrent? 2 * myRadius: myRadius
                     color: apneaModel.get(index).myColor
                     border.color: apneaModel.get(index).isCurrent? "white": "black"
                     border.width: 2
@@ -179,7 +210,7 @@ ApplicationWindow {
                         id:timeText
                         anchors.centerIn: parent
                         font.pixelSize: parent.height - 2
-                        text: time; style: Text.Raised; styleColor: "white"
+                        text: "<b>" + time + "</b>"; color: "white"; style: Text.Raised; styleColor: "black"
                         //text: index + ". " + typeName + " " + time + "sec."
 
                     }

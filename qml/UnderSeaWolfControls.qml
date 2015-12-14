@@ -56,7 +56,7 @@ CircularGauge {
             border.color: "black"
         }
     }
-    // gauge type displayed in gauge sector
+
     Rectangle {
         id: textWrapper
 
@@ -85,11 +85,31 @@ CircularGauge {
         }
 
     }
-    SoundEffect {
+    Audio {
             id: breathsnd
             volume: 1.0
             source: "qrc:/qml/sounds/breathe.wav"
-        }
+    }
+    Audio {
+            id: holdsnd
+            volume: 1.0
+            source: "qrc:/qml/sounds/hold.wav"
+    }
+    Audio {
+            id: walksnd
+            volume: 1.0
+            source: "qrc:/qml/sounds/walk.wav"
+    }
+    Audio {
+            id: thirtysnd
+            volume: 1.0
+            source: "qrc:/qml/sounds/30sec.wav"
+    }
+    Audio {
+            id: tensnd
+            volume: 1.0
+            source: "qrc:/qml/sounds/10sec.wav"
+    }
     states:[
         State {
             name: "stateRun"
@@ -110,6 +130,22 @@ CircularGauge {
             }
         }
     ]
+    Timer{
+        id: thirtyTimer
+        interval:30000
+        onTriggered:{
+                //when timer expired set it to 20 sec to play 10 sec left
+                thirtysnd.play()
+        }
+    }
+    Timer{
+        id: tenTimer
+        interval:20000
+        onTriggered:{
+            tensnd.play()
+        }
+    }
+
     transitions:[
         Transition {
             from: "*"
@@ -123,8 +159,20 @@ CircularGauge {
             onRunningChanged: {
                 // the step is over - go to the next step
                 if (running){
+                    thirtyTimer.interval= maximumValue * 1000 - 30000
+                    if (thirtyTimer.interval > 0){
+                        thirtyTimer.start()
+                    }
+                    tenTimer.interval = maximumValue * 1000 - 10000
+                    if (tenTimer.interval > 0){
+                        tenTimer.start()
+                    }
                     if (gauge.gaugeName == "brth"){
-                       breathsnd.play
+                       breathsnd.play()
+                    } else if (gauge.gaugeName == "hold"){
+                        holdsnd.play()
+                    }  else if (gauge.gaugeName == "walk"){
+                        walksnd.play()
                     }
                 }
 

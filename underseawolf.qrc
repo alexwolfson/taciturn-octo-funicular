@@ -8,5 +8,9 @@
         <file>qml/Gauges.qml</file>
         <file>qml/images/surface.png</file>
         <file>qml/sounds/breathe.wav</file>
+        <file>qml/sounds/hold.wav</file>
+        <file>qml/sounds/walk.wav</file>
+        <file>qml/sounds/10sec.wav</file>
+        <file>qml/sounds/30sec.wav</file>
     </qresource>
 </RCC>
