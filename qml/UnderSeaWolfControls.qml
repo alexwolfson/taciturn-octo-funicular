@@ -29,6 +29,8 @@ CircularGauge {
         id: gaugeStyle
         minimumValueAngle: gauge.minAngle
         maximumValueAngle: gauge.maxAngle
+        labelStepSize: ((maximumValue - minimumValue) /8).toFixed()
+        tickmarkStepSize: labelStepSize
         function toPixels(percentage) {
             return percentage * outerRadius;
         }

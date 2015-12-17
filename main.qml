@@ -6,6 +6,7 @@ import QtQuick.Extras 1.4
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.2
 import QtMultimedia 5.5
+//import "MainForm.ui.qml"
 import "./qml"
 ApplicationWindow {
     visible: true
@@ -79,9 +80,9 @@ ApplicationWindow {
             property int breathe: 0
             property int hold: 1
             property int walk: 2
-            ListElement { time: 35; typeName: "brth";    myColor: "red";   isCurrent: false }
-            ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 32; typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 240; typeName: "brth";    myColor: "red";   isCurrent: false }
+            ListElement { time: 120; typeName: "hold";    myColor: "blue";  isCurrent: false }
+            ListElement { time: 360; typeName: "walk";    myColor: "green"; isCurrent: false }
 
             ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 11; typeName: "hold";    myColor: "blue";  isCurrent: false }
@@ -93,7 +94,7 @@ ApplicationWindow {
 
             ListElement { time: 14; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 18; typeName: "hold";    myColor: "blue";  isCurrent: false }
-            ListElement { time: 105; typeName: "walk";    myColor: "green"; isCurrent: false }
+            ListElement { time: 12; typeName: "walk";    myColor: "green"; isCurrent: false }
 
             ListElement { time: 10; typeName: "brth";    myColor: "red";   isCurrent: false }
             ListElement { time: 16; typeName: "hold";    myColor: "blue";  isCurrent: false }
@@ -177,8 +178,11 @@ ApplicationWindow {
         }
         GridView {
             id: view
+            anchors.rightMargin: -1
+            anchors.bottomMargin: -1
+            anchors.leftMargin: 1
+            anchors.topMargin: 46
             anchors.top:viewHeader.bottom
-            anchors.topMargin: viewHeader.height + 5
             anchors.fill: parent
 
             cellWidth: (parent.width - 2 * anchors.margins) /12 - 3
@@ -218,6 +222,7 @@ ApplicationWindow {
                     Behavior on height {NumberAnimation{duration:500}}
                 }
             }
+
         }
     }
     MainForm {
@@ -234,7 +239,7 @@ ApplicationWindow {
             timerBreathe.state = "stateRun";
             timerBreathe.isCurrent = true
             apneaModel.get(0).isCurrent = true
-            button1.enabled = false
+            walkControl.enabled = false
             button2.enabled = true
         }
         button2.onClicked: {
@@ -244,9 +249,17 @@ ApplicationWindow {
             //apneaModel.get(apneaModel.index).isCurrent = false
             //apneaModel.index = 0
 
-            button1.enabled = true
+            walkControl.enabled = true
             button2.enabled = false
-        }
-    }
 
+        }
+        walkControl.onClicked: {
+            if (walkControl.text === qsTr("Finish Walk")){
+                //enabled = false;
+                timerWalk.state = "initial";
+                timerWalk.maximumValue = timerWalk.value;
+                walkControl.text = qsTr("Breath")
+            }
+       }
+    }
 }

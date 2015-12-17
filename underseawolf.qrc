@@ -4,7 +4,6 @@
         <file>MainForm.ui.qml</file>
         <file>main.cpp</file>
         <file>qml/UnderSeaWolfControls.qml</file>
-        <file>qml/images/SeaTurtle.png</file>
         <file>qml/Gauges.qml</file>
         <file>qml/images/surface.png</file>
         <file>qml/sounds/breathe.wav</file>
