@@ -11,5 +11,8 @@
         <file>qml/sounds/walk.wav</file>
         <file>qml/sounds/10sec.wav</file>
         <file>qml/sounds/30sec.wav</file>
+        <file>qml/SeriesConfig.qml</file>
+        <file>qml/SeriesConfigForm.ui.qml</file>
+        <file>qml/CreateSession.qml</file>
     </qresource>
 </RCC>

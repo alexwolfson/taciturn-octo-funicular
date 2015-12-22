@@ -7,9 +7,9 @@ Item {
     width: root.width
     height: root.height
 
-    property alias button1: button1
-    property alias button2: button2
-    property alias walkControl: walkControl
+//    property alias button1: button1
+//    property alias button2: button2
+//    property alias walkControl: walkControl
 
     RowLayout {
         id: rowLayout1
@@ -20,27 +20,26 @@ Item {
         anchors.horizontalCenterOffset: 0
         anchors.verticalCenterOffset: 0
 
-        Button {
-            id: button1
-            height: 40
-            text: qsTr("Start")
-            anchors.top: walkControl.bottom
-            anchors.topMargin: -27
-            enabled: true
-            clip: true
-        }
+//        Button {
+//            id: button1
+//            height: 40
+//            text: qsTr("Start")
+//            anchors.top: walkControl.bottom
+//            anchors.topMargin: -27
+//            enabled: true
+//            clip: true
+//        }
 
-        Button {
-            id: walkControl
-            height: 40
-            text: qsTr("Finish Walk")
-            enabled: true
-        }
-        Button {
-            id: button2
-            height: 40
-            text: qsTr("Walk Back")
-        }
-    }
+//        Button {
+//            id: walkControl
+//            height: 40
+//            text: qsTr("Finish Walk")
+//            enabled: true
+//        }
+//        Button {
+//            id: button2
+//            height: 40
+//            text: qsTr("Walk Back")
+//        }
+//    }
 }
-

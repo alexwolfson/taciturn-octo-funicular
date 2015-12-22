@@ -25,5 +25,7 @@ DISTFILES += \
     TODO \
     README \
     qml/sounds/10sec.wav \
-    qml/sounds/30sec.wav
+    qml/sounds/30sec.wav \
+    qml/SeriesConfig.qml \
+    qml/SeriesConfigForm.ui.qml
 

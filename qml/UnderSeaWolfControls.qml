@@ -13,15 +13,16 @@ CircularGauge {
     value: 0
     anchors.verticalCenter: parent.verticalCenter
     property string gaugeName: "unknownName"
-    property ListModel gaugeModel
+    property GridView gridView
+    property ListModel gaugeModel: gridView.model
     property CircularGauge nextGauge
-
     property var gaugeModelElement: gaugeModel.get(modelIndex)
     property bool isCurrent: false
     property real minAngle: -45
     property real maxAngle:  45
     property color needleColor: gaugeModelElement.myColor
     property int currentModelElement: 0
+    property Button gaugeWalkControl
     maximumValue: gaugeModelElement.time
     property int modelIndex: 0
     //onIsCurrentChanged: { gaugeModelElement.isCurrent = isCurrent}
@@ -29,8 +30,9 @@ CircularGauge {
         id: gaugeStyle
         minimumValueAngle: gauge.minAngle
         maximumValueAngle: gauge.maxAngle
-        labelStepSize: ((maximumValue - minimumValue) /8).toFixed()
+        labelStepSize: ((maximumValue - minimumValue) /8 + 0.5).toFixed()
         tickmarkStepSize: labelStepSize
+        minorTickmarkCount: 1
         function toPixels(percentage) {
             return percentage * outerRadius;
         }
@@ -57,6 +59,12 @@ CircularGauge {
             color: gauge.needleColor
             border.color: "black"
         }
+        tickmarkLabel: Text {
+            color: "white"
+            text: styleData.value
+            style: Text.Outline
+            styleColor: gauge.needleColor
+        }
     }
 
     Rectangle {
@@ -68,10 +76,10 @@ CircularGauge {
         x: (gauge.x + gauge.width) /2
         anchors.centerIn: gauge.Center
         //color: apneaModel.get(index).myColor
-//                    gradient: Gradient {
-//                        GradientStop { position: 0.0; color: "#f8306a" }
-//                        GradientStop { position: 1.0; color: "#fb5b40" }
-//                    }
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#f8306a" }
+                        GradientStop { position: 1.0; color: "#fb5b40" }
+                    }
 
         Text {
             text: gauge.gaugeModelElement.typeName
@@ -171,14 +179,18 @@ CircularGauge {
                     }
                     if (gauge.gaugeName == "brth"){
                        breathsnd.play()
+
                     } else if (gauge.gaugeName == "hold"){
                         holdsnd.play()
+                        gridView.holdFooterTime = view.holdFooterTime
+                        //gridView.delegate.border.color = "white"
                     }  else if (gauge.gaugeName == "walk"){
+                        //gaugeWalkControl.enabled = true
                         walksnd.play()
                     }
                 }
 
-                if ((!running) && (gaugeModelElement.typeName == gaugeName)) {
+                if ((!running) && (gaugeModelElement.typeName === gaugeName)) {
                     console.log("running=", running, "modelIndex=", modelIndex)
                     state = "initial";
                     gaugeModel.get(modelIndex).isCurrent = false
